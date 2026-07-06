@@ -1,31 +1,25 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from telas.relatorios_interativo import Produtos
 
 class TelaRelatorios(tk.Toplevel):
-    def __init__(self, master, vendas=None):
+    def __init__(self, master):
         super().__init__(master)
         self.title('Relatórios Financeiros')
         self.geometry('600x500')
         self.grab_set()
 
-        self.vendas = vendas if vendas else [
-            {'id': 1, 'total': 150.00, 'itens': [('Mouse', 50.0), ('Teclado', 100.0)]},
-            {'id': 2, 'total': 2200.00, 'itens': [('Notebook', 2200.0)]},
-            {'id': 3, 'total': 45.00, 'itens': [('Mousepad', 45.0)]},
-            {'id': 4, 'total': 120.00, 'itens': [('Fone de Ouvido', 120.0)]},
-            {'id': 5, 'total': 850.00, 'itens': [('Monitor 24"', 850.0)]},
-            {'id': 6, 'total': 30.00, 'itens': [('Cabo HDMI', 30.0)]},
-            {'id': 7, 'total': 15.00, 'itens': [('Pendrive 16GB', 15.0)]},
-        ]
-
+        self.backend = Produtos()
+        self.vendas_totais = self.backend.obter_vendas()
+        
         self.interface()
 
     def interface(self):
         titulo = tk.Label(self, text='Relatórios e Faturamento', font=('Arial', 24, 'bold'))
         titulo.pack(pady=(20, 10))
 
-        total_geral = sum(venda['total'] for venda in self.vendas)
+        total_geral = self.backend.calcular_faturamento_total()
         
         lbl_total = tk.Label(self, text=f'Faturamento Total: R$ {total_geral:.2f}', font=('Arial', 14, 'bold'), fg='green')
         lbl_total.pack(pady=(0, 20))
@@ -56,7 +50,7 @@ class TelaRelatorios(tk.Toplevel):
         self.canvas.bind_all("<Button-4>", self.ao_rolar_mouse)        
         self.canvas.bind_all("<Button-5>", self.ao_rolar_mouse)        
 
-        for venda in self.vendas:
+        for venda in self.vendas_totais:
             frame_venda = tk.Frame(self.scrollable_frame, bd=1, relief="solid", padx=10, pady=10)
             frame_venda.pack(fill='x', pady=5, padx=5)
 
