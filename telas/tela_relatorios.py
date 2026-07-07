@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from telas.relatorios_interativo import Produtos
+from dominio.relatorios_interativo import Produtos
 
 class TelaRelatorios(tk.Toplevel):
     def __init__(self, master):

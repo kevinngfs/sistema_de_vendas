@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from telas.estoque_interativo import add_estoque
+from dominio.estoque_interativo import add_estoque
 
 class TelaEstoque(tk.Toplevel):
     def __init__(self, master):

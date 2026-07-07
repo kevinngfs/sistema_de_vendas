@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
-from telas.vendas_interativo import Estoque, CarrinhoDeCompras
+from dominio.vendas_interativo import Estoque, CarrinhoDeCompras
 
 class TelaVendas(tk.Toplevel):
     def __init__(self, master):
