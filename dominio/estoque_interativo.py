@@ -1,6 +1,11 @@
 from dados.persistencia import PersistenciaDados
 
 def add_estoque(janela_formulario):
+    """
+    Função responsavel por adicionar produtos ao estoque
+    Argumentos:
+        janela_formulario: A janela de formulário que contém os campos de entrada para o produto, preço e quantidade
+    """
     produto_nome = janela_formulario.entry_produto.get().strip()
     preco_produto = janela_formulario.entry_preco.get().strip()
     qtd_produto = janela_formulario.entry_qtd.get().strip()
