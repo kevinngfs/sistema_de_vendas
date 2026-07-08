@@ -1,5 +1,11 @@
 from dados.persistencia import PersistenciaDados
-
+    """
+    Classe responsável por gerenciar as informações dos produtos em estoque
+    Métodos:
+        __init__: Inicializa a classe, carregando os dados do banco de dados, recebe como parâmetro opcional uma lista de vendas
+        obter_vendas: Retorna a lista das vendas
+        calcular_faturamento_total: Retorna o faturamento total com base nas vendas registradas
+    """
 class Produtos:
     def __init__(self, vendas=None):
         banco = PersistenciaDados()
