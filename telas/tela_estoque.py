@@ -3,8 +3,18 @@ from tkinter import ttk, messagebox
 from dominio.estoque_interativo import add_estoque
 from dados.persistencia import PersistenciaDados
 
+# Nesse arquivo temos duas classes: TelaEstoque e AddEstoqueFrame. A primeira cria a janela principal para gerenciamento de estoque, a segunda é a janela para adicionar novos itens ao estoque
 
 class TelaEstoque(tk.Toplevel):
+    """
+    Classe responsável por criar a interface de gerenciamento de estoque
+    Métodos:
+        __init__: Inicializa a classe, criando a janela principal(do estoque) e chamando os métodos para construir a interface e carregar os dados iniciais, recebe como parâmetro a janela mestre (master)
+        interface: Cria os elementos da interface gráfica, incluindo botões, labels e uma tabela para exibir os produtos em estoque
+        abrir_formulario: Abre a janela de formulário para adicionar um novo item ao estoque
+        adicionar_item_na_lista: Adiciona um item à lista de produtos em estoque
+        carregar_dados_iniciais: Carrega os dados do banco de dados e preenche a tabela com os produtos existentes
+    """
     def __init__(self, master):
         super().__init__(master)
         self.title('Gerenciar Produtos e Estoque')
@@ -78,6 +88,12 @@ class TelaEstoque(tk.Toplevel):
 
 
 class AddEstoqueFrame(tk.Toplevel):
+    """
+    Classe responsável por criar a interface de formulário para adicionar novos itens ao estoque
+    Métodos:
+        __init__: Inicializa a classe, criando a janela de formulário e chamando o método para construir a interface, recebe como parâmetro a janela mestre (master)
+        criar_formulario: Cria os elementos da interface gráfica do formulário
+    """
     def __init__(self, master):
         super().__init__(master)
         self.master = master
