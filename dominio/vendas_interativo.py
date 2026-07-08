@@ -1,6 +1,16 @@
 from dados.persistencia import PersistenciaDados
 
 class CarrinhoDeCompras:
+    """
+    Classe responsável por gerenciar o carrinho de compras
+    Métodos:
+        __init__: Inicializa a classe, criando um dicionário vazio para armazenar os itens do carrinho
+        adicionar_item: Adiciona um item ao carrinho ou atualiza a quantidade se o item já estiver presente, recebe o nome do produto, preço e quantidade
+        remover_item: Remove uma quantidade de um item do carrinho ou remove o item completamente, recebe o nome do produto e a quantidade a ser removida
+        obter_carrinho: Retorna os itens que estão atualmente no carrinho
+        calcular_total: Calcula o preço total dos itens no carrinho
+        limpar_carrinho: Tira todos os itens do carrinho, esvaziando-o
+    """
     def __init__(self):
         self.carrinho = {}
 
@@ -29,6 +39,13 @@ class CarrinhoDeCompras:
 
 
 class ProcessadorVendas:
+    """
+    Classe responsável por processar as vendas e gerenciar o estoque
+    Métodos:
+        __init__: Inicializa a classe, carregando os dados do banco de dados e armazenando o estoque e as vendas
+        obter_produtos_disponiveis: Retorna os produtos disponíveis no estoque
+        finalizar_venda: Finaliza a venda, atualizando o estoque e registrando a venda, recebe o carrinho de compras como parâmetro
+    """
     def __init__(self):
         self.persistencia = PersistenciaDados()
         self.dados_sistema = self.persistencia.carregar()
