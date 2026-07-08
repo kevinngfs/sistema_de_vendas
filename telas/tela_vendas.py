@@ -3,7 +3,19 @@ from tkinter import ttk
 from tkinter import messagebox
 from dominio.vendas_interativo import ProcessadorVendas, CarrinhoDeCompras
 
+# Esse arquivo contém a classe TelaVendas, que é responsável por criar a interface de vendas, e a classe JanelaQuantidade, que é uma janela auxiliar para adicionar ou remover quantidades de produtos no carrinho de compras
+
 class TelaVendas(tk.Toplevel):
+    """
+    Classe responsável por criar a iinterface onde são feitas as vendas
+    Métodos:
+        __init__: Inicializa a classe, criando a janela de vendas e chamando o método criar_layout para construir a interface, recebe como parâmetro a janela mestre (master)
+        criar_layout: Cria os elementos da interface gráfica
+        carregar_produtos: Carrega os produtos disponíveis no estoque e os exibe na interface
+        atualizar_interface: Atualiza a exibição do carrinho e o total da venda
+        solicitar_remocao: Solicita ao usuário a confirmação para remover um item do carrinho
+        finalizar_venda: Finaliza a venda e registra as transações
+    """
     def __init__(self, master):
         super().__init__(master)
         self.title('Ponto de Vendas')
@@ -122,6 +134,12 @@ class TelaVendas(tk.Toplevel):
 
 
 class JanelaQuantidade(tk.Toplevel):
+    """
+    Classe responsável por criar a janela para adicionar ou remover quantidades de produtos no carrinho de compras
+    Métodos:
+        __init__: Inicializa a classe e cria uma janela, recebe como parâmetros a janela mestre (master), a ação (Adicionar ou Remover), o produto e o preço
+        confirmar: Confirma a ação de adicionar ou remover a quantidade especificada do produto no carrinho de compras
+    """
     def __init__(self, master, acao, produto, preco):
         super().__init__(master)
         self.master = master
