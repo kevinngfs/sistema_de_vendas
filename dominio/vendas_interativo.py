@@ -1,32 +1,5 @@
 from dados.persistencia import PersistenciaDados
 
-banco = PersistenciaDados()
-
-class Estoque:
-    def __init__(self):     
-        dados = banco.carregar()
-        
-        if not dados.get("estoque") or isinstance(dados["estoque"], list):
-            dados["estoque"] = {
-                "Arroz 5kg": 25.50,
-                "Feijão 1kg": 8.00,
-                "Macarrão": 4.50,
-                "Óleo de Soja": 6.00,
-                "Café 500g": 15.00,
-                "Açúcar 1kg": 4.00,
-                "Leite 1L": 6.99,
-                "Leite 2L": 6.99,
-                "Leite 3L": 6.99,
-                "Leite 4L": 6.99,
-                "Leite 5L": 6.99,
-                "Leite 6L": 6.99,
-                "Leite 7L": 6.99
-            }
-            banco.salvar(dados)
-            
-        self.estoque_mock = dados["estoque"]
-
-
 class CarrinhoDeCompras:
     def __init__(self):
         self.carrinho = {}
@@ -40,33 +13,55 @@ class CarrinhoDeCompras:
     def remover_item(self, produto, qtd_remover):
         if produto not in self.carrinho:
             return
-            
-        qtd_atual = self.carrinho[produto]["qtd"]
-        if qtd_remover >= qtd_atual:
+        if self.carrinho[produto]["qtd"] <= qtd_remover:
             del self.carrinho[produto]
         else:
             self.carrinho[produto]["qtd"] -= qtd_remover
 
-    def obter_itens(self):
+    def obter_carrinho(self):
         return self.carrinho
 
     def calcular_total(self):
-        return sum(dados["preco"] * dados["qtd"] for dados in self.carrinho.values())
+        return sum(item["preco"] * item["qtd"] for item in self.carrinho.values())
 
-    def simular_registro_venda(self):
-        if not self.carrinho:
-            return False, 0.0
-        
-        total_venda = self.calcular_total()
-        
-        dados = banco.carregar()
-        nova_venda = {
-            'id': len(dados["vendas"]) + 1,
-            'total': total_venda,
-            'itens': [(prod, info["preco"]) for prod, info in self.carrinho.items()]
-        }
-        dados["vendas"].append(nova_venda)
-        banco.salvar(dados)
-        
+    def limpar_carrinho(self):
         self.carrinho.clear()
-        return True, total_venda
+
+
+class ProcessadorVendas:
+    def __init__(self):
+        self.persistencia = PersistenciaDados()
+        self.dados_sistema = self.persistencia.carregar()
+        self.estoque = self.dados_sistema.get("estoque", {})
+        self.vendas = self.dados_sistema.get("vendas", [])
+
+    def obter_produtos_disponiveis(self):
+        self.dados_sistema = self.persistencia.carregar()
+        self.estoque = self.dados_sistema.get("estoque", {})
+        return self.estoque
+
+    def finalizar_venda(self, carrinho_compras):
+        carrinho = carrinho_compras.obter_carrinho()
+        if not carrinho:
+            return False, "Carrinho vazio"
+
+        self.dados_sistema = self.persistencia.carregar()
+        self.vendas = self.dados_sistema.get("vendas", [])
+
+        proximo_id = max([venda.get("id", 0) for venda in self.vendas], default=0) + 1
+        itens_venda = []
+        
+        for produto, info in carrinho.items():
+            itens_venda.append((f"{produto} (x{info['qtd']})", info["preco"] * info["qtd"]))
+
+        nova_venda = {
+            "id": proximo_id,
+            "total": carrinho_compras.calcular_total(),
+            "itens": itens_venda
+        }
+
+        self.vendas.append(nova_venda)
+        self.dados_sistema["vendas"] = self.vendas
+        self.persistencia.salvar(self.dados_sistema)
+        carrinho_compras.limpar_carrinho()
+        return True, "Venda realizada com sucesso"
