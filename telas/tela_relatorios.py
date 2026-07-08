@@ -4,6 +4,16 @@ from tkinter import messagebox
 from dominio.relatorios_interativo import Produtos
 
 class TelaRelatorios(tk.Toplevel):
+    """
+    Classe responsável por criar a interface de relatórios financeiros
+    Métodos:
+        __init__: Inicializa a classe, criando a janela de relatórios e chamando o método interface para construir a interface, recebe como parâmetro a janela mestre (master)
+        interface: Cria os elementos da interface gráfica, incluindo labels, botões e uma lista de vendas
+        ao_rolar_mouse: Permite rolar a lista de vendas com o mouse
+        fechar_tela: Fecha a janela de relatórios
+        confirmar_abertura: Pergunta ao usuário se deseja abrir o relatório detalhado de uma venda específica
+        mostrar_detalhes: Mostra os detalhes de uma venda específica em uma nova janela
+    """
     def __init__(self, master):
         super().__init__(master)
         self.title('Relatórios Financeiros')
