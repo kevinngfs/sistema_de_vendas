@@ -1,4 +1,6 @@
 from dados.persistencia import PersistenciaDados
+
+class Produtos:
     """
     Classe responsável por gerenciar as informações dos produtos em estoque
     Métodos:
@@ -6,7 +8,6 @@ from dados.persistencia import PersistenciaDados
         obter_vendas: Retorna a lista das vendas
         calcular_faturamento_total: Retorna o faturamento total com base nas vendas registradas
     """
-class Produtos:
     def __init__(self, vendas=None):
         banco = PersistenciaDados()
         dados = banco.carregar()
